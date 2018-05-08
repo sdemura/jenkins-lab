@@ -11,4 +11,21 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            echo 'Hello there!'
+        }
+        success {
+            echo 'We have a winner!'
+        }
+        failure {
+            echo 'Something went bad'
+        }
+        unstable {
+            echo 'Looks like we have a flaker'
+        }
+        changed {
+            echo 'Something changed, so you are reading this'
+        }
+    }
 }
