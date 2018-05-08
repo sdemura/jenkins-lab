@@ -3,38 +3,26 @@ pipeline {
     kubernetes {
       label 'mypod'
       defaultContainer 'jnlp'
-      yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    some-label: some-label-value
-spec:
-  containers:
-  - name: maven
-    image: maven:alpine
-    command:
-    - cat
-    tty: true
-  - name: busybox
-    image: busybox
-    command:
-    - cat
-    tty: true
-"""
     }
   }
   stages {
-    stage('Run maven') {
+    stage('Build') {
       steps {
-        container('maven') {
-          sh 'mvn -version'
-        }
-        container('busybox') {
-          sh '/bin/busybox'
-        }
+        sh 'export FAIL=5'
+        sh 'echo For this test, failure is $FAIL'
       }
     }
+    stage('Test') {
+      steps {
+        sh './flake.sh'
+        sh 'touch a_file'
+      }
+    }
+    stage('Cleanup') {
+      steps {
+        sh 'rm -f a_file'
+      }
+}
   }
     post {
         always {
