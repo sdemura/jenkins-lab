@@ -3,11 +3,13 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'python --version'
-                sh '''
-                    echo "Multiline shell steps works too"
-                    ls -lah
-                '''
+                sh 'export FAIL=5'
+                sh 'echo For this test, failure is $FAIL'
+            }
+        }
+        stage('test') {
+            steps {
+                sh './flake.sh'
             }
         }
     }
