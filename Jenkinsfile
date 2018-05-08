@@ -18,6 +18,11 @@ pipeline {
         sh 'touch a_file'
       }
     }
+    stage('cleanup') {
+      steps {
+        sh 'rm -f a_file'
+      }
+    }
   }
   post {
     always {
