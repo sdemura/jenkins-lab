@@ -1,18 +1,41 @@
 pipeline {
-    /* agent { docker { image 'python:3.5.1' } } */
-    stages {
-        stage('build') {
-            steps {
-                sh 'export FAIL=5'
-                sh 'echo For this test, failure is $FAIL'
-            }
-        }
-        stage('test') {
-            steps {
-                sh './flake.sh'
-            }
-        }
+  agent {
+    kubernetes {
+      label 'mypod'
+      defaultContainer 'jnlp'
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    some-label: some-label-value
+spec:
+  containers:
+  - name: maven
+    image: maven:alpine
+    command:
+    - cat
+    tty: true
+  - name: busybox
+    image: busybox
+    command:
+    - cat
+    tty: true
+"""
     }
+  }
+  stages {
+    stage('Run maven') {
+      steps {
+        container('maven') {
+          sh 'mvn -version'
+        }
+        container('busybox') {
+          sh '/bin/busybox'
+        }
+      }
+    }
+  }
     post {
         always {
             echo 'Hello there!'
