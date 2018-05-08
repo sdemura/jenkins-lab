@@ -1,8 +1,8 @@
 pipeline {
   agent {
     kubernetes {
-      label 'mypod'
-      defaultContainer 'jnlp'
+      /* label 'mypod' */
+      /* defaultContainer 'jnlp' */
     }
   }
   stages {
