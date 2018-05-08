@@ -6,19 +6,19 @@ pipeline {
 
   }
   stages {
-    stage('build') {
+    stage('Build') {
       steps {
         sh 'export FAIL=5'
         sh 'echo For this test, failure is $FAIL'
       }
     }
-    stage('test') {
+    stage('Test') {
       steps {
         sh './flake.sh'
         sh 'touch a_file'
       }
     }
-    stage('cleanup') {
+    stage('Cleanup') {
       steps {
         sh 'rm -f a_file'
       }
