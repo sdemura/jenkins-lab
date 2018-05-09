@@ -58,13 +58,14 @@ sleep 10'''
           }
         }
         stage('only test not master') {
+            steps {
             if (env.BRANCH_NAME != 'master') {
                 echo 'Running test because not on master'
             } else {
                 echo 'Skipping because on master'
             }
+            }
         }
-      }
     }
     stage('Promote') {
         when {
