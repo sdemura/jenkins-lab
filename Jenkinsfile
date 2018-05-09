@@ -31,7 +31,7 @@ sleep 10'''
         }
         stage('add a artifact') {
           steps {
-            sh 'touch my_artifact'
+            sh 'echo "HEY THERE" > my_artifact'
           }
         }
       }
