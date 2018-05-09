@@ -67,6 +67,7 @@ sleep 10'''
             }
         }
     }
+    }
     stage('Promote') {
         when {
             branch 'master'
