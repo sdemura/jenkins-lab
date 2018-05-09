@@ -1,5 +1,8 @@
 pipeline {
   agent any
+      options {
+          timeout(time: 1, unit: 'HOURS')
+      }
   stages {
     stage('Build') {
       parallel {
@@ -26,11 +29,19 @@ sleep 10'''
             sh 'touch another_thing'
           }
         }
+        stage('add a artifact') {
+          steps {
+            sh 'touch my_artifact'
+          }
+        }
       }
     }
     stage('Test') {
       parallel {
         stage('Test') {
+            options {
+                retry(3)
+            }
           steps {
             sh './flake.sh'
             sh 'touch a_file'
@@ -48,6 +59,14 @@ sleep 10'''
         }
       }
     }
+    stage('Promote') {
+        when {
+            branch 'master'
+        }
+        steps {
+            echo 'PROMOTING MASTER TO PRODUCTION'
+        }
+    }
     stage('Cleanup') {
       steps {
         sh 'rm -f a_file'
@@ -55,7 +74,7 @@ sleep 10'''
     }
     stage('') {
       steps {
-        archiveArtifacts(allowEmptyArchive: true, artifacts: 'some-thing')
+        archiveArtifacts(allowEmptyArchive: true, artifacts: 'my_artifact')
       }
     }
   }
