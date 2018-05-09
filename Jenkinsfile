@@ -58,15 +58,15 @@ sleep 10'''
           }
         }
         stage('only test not master') {
-            steps {
+            steps{  
             if (env.BRANCH_NAME != 'master') {
-                echo 'Running test because not on master'
+                sh 'echo Running test because not on master'
             } else {
-                echo 'Skipping because on master'
-            }
+                sh 'echo Skipping because on master'
             }
         }
-    }
+        }
+        }
     }
     stage('Promote') {
         when {
@@ -93,28 +93,22 @@ sleep 10'''
   post {
     always {
       echo 'Hello there!'
-
     }
 
     success {
       echo 'We have a winner!'
-
     }
 
     failure {
       echo 'Something went bad'
-
     }
 
     unstable {
       echo 'Looks like we have a flaker'
-
     }
 
     changed {
       echo 'Something changed, so you are reading this'
-
     }
-
   }
 }
