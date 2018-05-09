@@ -57,6 +57,13 @@ sleep 10'''
             sh 'echo "FOO=$FOO"'
           }
         }
+        stage('only test not master') {
+            if (env.BRANCH_NAME != 'master') {
+                echo 'Running test because not on master'
+            } else {
+                echo 'Skipping because on master'
+            }
+        }
       }
     }
     stage('Promote') {
