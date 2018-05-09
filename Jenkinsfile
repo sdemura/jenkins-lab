@@ -58,13 +58,10 @@ sleep 10'''
           }
         }
         stage('only test not master') {
+            when { not { branch 'master' } }
             steps{  
-            if (env.BRANCH_NAME != 'master') {
-                sh 'echo Running test because not on master'
-            } else {
-                sh 'echo Skipping because on master'
+                sh 'echo trolololo'
             }
-        }
         }
         }
     }
