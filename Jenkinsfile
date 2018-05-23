@@ -1,11 +1,11 @@
 pipeline {
   /* agent any */
-    agent {
-        /* docker { */
-        /*     image 'centos:7' */
-        /* } */
-        any
-    }
+    /* agent { */
+    /*     /1* docker { *1/ */
+    /*     /1*     image 'centos:7' *1/ */
+    /*     /1* } *1/ */
+    /* } */
+    agent kubernetes
       options {
           timeout(time: 1, unit: 'HOURS')
       }
