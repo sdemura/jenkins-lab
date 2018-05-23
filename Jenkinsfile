@@ -1,9 +1,10 @@
 pipeline {
   /* agent any */
     agent {
-        docker {
-            image 'centos:7'
-        }
+        /* docker { */
+        /*     image 'centos:7' */
+        /* } */
+        any
     }
       options {
           timeout(time: 1, unit: 'HOURS')
