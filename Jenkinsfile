@@ -1,14 +1,24 @@
 pipeline {
-  /* agent any */
-    /* agent { */
-    /*     /1* docker { *1/ */
-    /*     /1*     image 'centos:7' *1/ */
-    /*     /1* } *1/ */
-    /* } */
-    agent any
-      /* options { */
-      /*     timeout(time: 1, unit: 'HOURS') */
-      /* } */
+      agent {
+        kubernetes {
+          label 'mypod'
+          defaultContainer 'jnlp'
+          yaml """
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      labels:
+        some-label: some-label-value
+    spec:
+      containers:
+      - name: centos
+        image: centos:7
+        command:
+        - cat
+        tty: true
+    """
+        }
+      }
   stages {
     stage('Build') {
       parallel {
