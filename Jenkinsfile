@@ -5,10 +5,10 @@ pipeline {
     /*     /1*     image 'centos:7' *1/ */
     /*     /1* } *1/ */
     /* } */
-    agent kubernetes
-      options {
-          timeout(time: 1, unit: 'HOURS')
-      }
+    agent any
+      /* options { */
+      /*     timeout(time: 1, unit: 'HOURS') */
+      /* } */
   stages {
     stage('Build') {
       parallel {
